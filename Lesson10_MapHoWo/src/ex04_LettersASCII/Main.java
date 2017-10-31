@@ -8,7 +8,7 @@ public class Main {
 
 		HashMap<Character, String[]> hm = ASCIIletters.letters();
 
-		String s = "Who is on duty today ?";
+		String s = " ";
 
 		char[] lines = textToLines(s);
 		linesPrint(lines, hm);
