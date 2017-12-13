@@ -166,16 +166,18 @@ public class User {
             System.out.println("\\createChatRoom");
             System.out.println("\\joinChatRoom");
         }
-        if(command.equals("pm"))
+        else if(command.equals("pm"))
             sendPrivateMessage();
-        if(command.equals("getActiveUsers"))
+        else if(command.equals("getActiveUsers"))
             getActiveUsers();
-        if(command.equals("checkStatus"))
+        else if(command.equals("checkStatus"))
             checkStatus();
-        if(command.equals("createChatRoom"))
+        else if(command.equals("createChatRoom"))
             createChatRoom();
-        if(command.equals("joinChatRoom"))
+        else if(command.equals("joinChatRoom"))
             joinChatRoom();
+        else
+            System.out.println("COMMAND NOT FOUND");
     }
 
     public void sendPrivateMessage (){
