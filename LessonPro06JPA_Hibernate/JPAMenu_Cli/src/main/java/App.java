@@ -1,4 +1,3 @@
-//package JPATest1;
 
 import javax.persistence.*;
 import java.util.*;
@@ -19,10 +18,9 @@ public class App {
             try {
                 while (true) {
                     System.out.println("1: Meals within price range");
-                    System.out.println("2: Add random meals");
-                    System.out.println("3: View discounted meals only");
-                    System.out.println("4: Choose random meals up to 1kg");
-                    System.out.println("5: View meals");
+                    System.out.println("2: View discounted meals only");
+                    System.out.println("3: Choose random meals up to 1kg");
+                    System.out.println("4: View meals");
                     System.out.print("-> ");
 
                     String s = sc.nextLine();
@@ -88,62 +86,50 @@ public class App {
         String sTo = sc.nextLine();
         int priceTo = Integer.parseInt(sTo);
 
-        try {
-            Query query = em.createQuery("SELECT c FROM Meal c WHERE c.price >= :priceFrom AND (c.price*(100 - c.discount)/100) <= :priceTo", Meal.class);
-            query.setParameter("priceFrom", priceFrom);
-            query.setParameter("priceTo", priceTo);
-            List<Meal> meals = query.getResultList();
+        Query query = em.createQuery("SELECT c FROM Meal c WHERE c.price >= :priceFrom AND (c.price*(100 - c.discount)/100) <= :priceTo", Meal.class);
+        query.setParameter("priceFrom", priceFrom);
+        query.setParameter("priceTo", priceTo);
+        List<Meal> meals = query.getResultList();
 
-            for (Meal meal : meals){
-                System.out.println(meal);
-            }
-        } catch (NoResultException ex) {
-            System.out.println("MEAL not found!");
-            return;
+        for (Meal meal : meals){
+            System.out.println(meal);
         }
+
     }
 
     private static void viewDiscountedMealsOnly() {
-        try {
-            Query query = em.createQuery("SELECT c FROM Meal c WHERE c.discount > 0", Meal.class);
-            List<Meal> meals = query.getResultList();
+        Query query = em.createQuery("SELECT c FROM Meal c WHERE c.discount > 0", Meal.class);
+        List<Meal> meals = query.getResultList();
 
-            for (Meal meal : meals){
-                System.out.println(meal);
-            }
-        } catch (NoResultException ex) {
-            System.out.println("MEAL not found!");
-            return;
+        for (Meal meal : meals){
+            System.out.println(meal);
         }
     }
 
     private static void chooseRandomMealsUptoOneKilo() {
         Random rnd = new Random();
-        try {
-            Query query = em.createQuery("SELECT c FROM Meal c", Meal.class);
-            List<Meal> meals = query.getResultList();
 
-            List <Meal> selectedMeals = new ArrayList<>();
-            int overallWeight = 0;
+        Query query = em.createQuery("SELECT c FROM Meal c", Meal.class);
+        List<Meal> meals = query.getResultList();
 
-            while (overallWeight < 1000){
-                int i = rnd.nextInt(meals.size());
+        List <Meal> selectedMeals = new ArrayList<>();
+        int overallWeight = 0;
+
+        while (overallWeight < 1000){
+            int i = rnd.nextInt(meals.size());
+
+            if (overallWeight + meals.get(i).getWeight() >= 1000){
+                break;
+            } else {
                 overallWeight += meals.get(i).getWeight();
-                if (overallWeight >= 1000){
-                    break;
-                } else {
-                    selectedMeals.add(meals.get(i));
-                }
+                selectedMeals.add(meals.get(i));
             }
-
-            for (Meal meal : selectedMeals){
-                System.out.println(meal);
-            }
-
-        } catch (NoResultException ex) {
-            System.out.println("MEAL not found!");
-            return;
         }
+
+        for (Meal meal : selectedMeals){
+            System.out.println(meal);
+        }
+        System.out.println("TOTAL WEIGHT\t" + overallWeight + "g");
     }
 
 
