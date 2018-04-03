@@ -1,0 +1,11 @@
+
+
+1.The id uniqueness is optionally checked within a main method. The description says that 'all lines in the input file have correct format'. It is not clear whether ids are unique though. If they are not, it breaks the integrity of the order book. So the program will print an "error" to the output and exit if the isIdUniqunessChecked boolean is set to true.
+
+2. Resting orders at one price level are processed according to FIFO method 
+(earlier orders being processed first).
+
+3. A size query (q,size,<price>) returns 0 if no orders are available at the specified price.
+(there are no details on this in the task description).
+
+4. Nothing happens if there is a query to cancel a non-existant order..

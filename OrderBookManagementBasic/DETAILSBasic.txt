@@ -1,0 +1,20 @@
+Even if all lines in the input file have correct format some issues may arise.
+
+1.Execution is always between a resting order and the new incoming order,
+but nothing said what if an incoming order comes before any resting order is available,
+or the relevant resting orders amount is not sufficient for executing an incoming order.
+In my solution this will leads to mutual annihilation of the minimal size between the two orders.
+The remaining part of the incoming order does not get processed and a PendingOrderException is thrown.
+Optionally, a "OrderPendingException" gets printed into the error log.
+
+2. It is assumed in the task description that ask prices are always higher than bid prices and the spread is in between.
+Nevertheless, if this happens it would be a logically invalid input and the program will throw a LogicallyInvalidInputException,
+ print an "error" to the output and exit.
+Optionally, a "LogicallyInvalidInputException" gets printed into the error log.
+
+3. A best_bid or a best_ask may come while there are no bids or asks in the order book.
+This input does not break the integrity of the order book so the output will be “empty” (without quotes).
+
+4. There may be a size query while there are no orders in the order book.
+This input does not break the integrity of the order book so the output will be “0” (without quotes).
+
